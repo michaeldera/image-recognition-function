@@ -90,31 +90,6 @@ namespace ImageRecognitionFunction
                 ? (ActionResult)new OkObjectResult("Success")
                 : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
         }
-
-
-        /// <summary>
-        /// Returns the contents of the specified file as a byte array.
-        /// </summary>
-        /// <param name="imageFilePath">The image file to read.</param>
-        /// <returns>The byte array of the image data.</returns>
-        static byte[] GetImageAsByteArray(string imageFilePath)
-        {
-            // Open a read-only file stream for the specified file.
-            using FileStream fileStream =
-                new FileStream(imageFilePath, FileMode.Open, FileAccess.Read);
-            // Read the file's contents into a byte array.
-            BinaryReader binaryReader = new BinaryReader(fileStream);
-            return binaryReader.ReadBytes((int)fileStream.Length);
-        }
     }
 
-    class ImageObject
-    {
-        public ImageObject(string imageUrl )
-        {
-            url = imageUrl;
-        }
-
-        public string url { get; set; }
-    }
 }
