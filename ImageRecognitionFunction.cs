@@ -76,9 +76,9 @@ namespace ImageRecognitionFunction
 
                 // Asynchronously get the JSON response.
                 string contentString = await response.Content.ReadAsStringAsync();
-
                 // Display the JSON response.
                 log.LogInformation("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
+                return (ActionResult)new OkObjectResult(new { contentString });
             }
 
             catch (Exception e)
@@ -86,8 +86,8 @@ namespace ImageRecognitionFunction
                 log.LogInformation("\n" + e.Message);
             }
 
-            return imageUrl != null 
-                ? (ActionResult)new OkObjectResult($"Hello, {imageUrl}")
+            return imageUrl != null
+                ? (ActionResult)new OkObjectResult("Success")
                 : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
         }
 
