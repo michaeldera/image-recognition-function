@@ -78,7 +78,7 @@ namespace ImageRecognitionFunction
                 string contentString = await response.Content.ReadAsStringAsync();
                 // Display the JSON response.
                 log.LogInformation("\nResponse:\n\n{0}\n", JToken.Parse(contentString).ToString());
-                return (ActionResult)new OkObjectResult(new { contentString });
+                return (ActionResult)new OkObjectResult(JToken.Parse(contentString));
             }
 
             catch (Exception e)
