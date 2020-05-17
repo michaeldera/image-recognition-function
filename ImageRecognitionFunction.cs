@@ -22,10 +22,10 @@ namespace ImageRecognitionFunction
 
 
         [FunctionName("AnalyseImage")]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-            ILogger log)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "options", Route = null)] HttpRequest req, ILogger log)
         {
+
+            req.HttpContext.Response.Headers.Add("X-Content-Type-Options", "nosniff");
 
             // Add your Computer Vision subscription key and endpoint to your environment variables.
 
