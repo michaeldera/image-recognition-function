@@ -21,6 +21,7 @@ namespace ImageRecognitionFunction
         private static readonly string endpoint = Environment.GetEnvironmentVariable("ENTITY_SEARCH_ENDPOINT");
 
 
+
         [FunctionName("AnalyseImage")]
         public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "options", Route = null)] HttpRequest req, ILogger log)
         {
@@ -67,12 +68,12 @@ namespace ImageRecognitionFunction
                 log.LogInformation(uri);
 
 
-                    // The other content types you can use are "application/json"
-                    // Asynchronously call the REST API method.
-                    var formatter = new JsonMediaTypeFormatter();
+                // The other content types you can use are "application/json"
+                // Asynchronously call the REST API method.
+                var formatter = new JsonMediaTypeFormatter();
 
-                    response = await client.PostAsync(uri, new { url = imageUrl }, formatter);
-      
+                response = await client.PostAsync(uri, new { url = imageUrl }, formatter);
+
 
                 // Asynchronously get the JSON response.
                 string contentString = await response.Content.ReadAsStringAsync();
@@ -90,6 +91,19 @@ namespace ImageRecognitionFunction
                 ? (ActionResult)new OkObjectResult("Success")
                 : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
         }
+
+        [FunctionName("authenticate")]
+        public static async Task<IActionResult> VerifyToken([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", "options", Route = null)] HttpRequest req, ILogger log)
+        {
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+
+            string token = data?.token;
+
+            return new OkObjectResult( new { token, message = "Authentication Mocked Successfully" });
+
+        }
+
     }
 
 }
